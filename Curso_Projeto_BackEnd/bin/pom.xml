@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.cursomc</groupId>
 	<artifactId>Curso_Projeto_BackEnd</artifactId>
-	<version>0.0.1-</version>
+	<version>0.0.1-SNAPSHOT</version>
 	<name>Curso_Projeto_BackEnd</name>
 	<description>Estudo de caso Java para curso de Modelagem conceitual com UML</description>
 
