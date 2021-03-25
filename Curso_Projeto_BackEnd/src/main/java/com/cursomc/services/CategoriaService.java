@@ -27,4 +27,10 @@ public class CategoriaService {
 		return repo.save(obj);
 	}
 
+	public Categoria update(Integer id,Categoria obj) throws ObjectNotFoundException {
+		find(id);
+		obj.setId(id);
+		return repo.save(obj);
+	}
+
 }
