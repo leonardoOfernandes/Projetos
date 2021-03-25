@@ -1,7 +1,10 @@
 package com.cursomc.services;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+import com.cursomc.dto.CategoriaDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -43,6 +46,12 @@ public class CategoriaService {
 			throw new DataIntegrityViolationException("Não é possivel excluir uma categoria que possui um produto");
 		}
 
+	}
+
+	public List<CategoriaDTO> findAll(){
+		List<Categoria> list = repo.findAll();
+		List<CategoriaDTO> listDto = list.stream().map(categoria -> new CategoriaDTO(categoria)).collect(Collectors.toList());
+		return listDto;
 	}
 
 }
