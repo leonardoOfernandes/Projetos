@@ -7,6 +7,9 @@ import java.util.stream.Collectors;
 import com.cursomc.dto.CategoriaDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.cursomc.domain.Categoria;
@@ -52,6 +55,16 @@ public class CategoriaService {
 		List<Categoria> list = repo.findAll();
 		List<CategoriaDTO> listDto = list.stream().map(categoria -> new CategoriaDTO(categoria)).collect(Collectors.toList());
 		return listDto;
+	}
+
+	public Page<Categoria> findAllByPage(Integer page,
+										 Integer linesPerPage,
+										 String orderBy,
+										 String direction){
+		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Sort.Direction.valueOf(direction), orderBy);
+
+		return repo.findAll(pageRequest);
+
 	}
 
 }

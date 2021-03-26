@@ -2,6 +2,7 @@ package com.cursomc.resources;
 
 import com.cursomc.dto.CategoriaDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,6 +33,18 @@ public class CategoriaResource {
 	public ResponseEntity<List<CategoriaDTO>> findAll() throws ObjectNotFoundException {
 		List<CategoriaDTO> list = service.findAll();
 		return ResponseEntity.ok(list);
+	}
+
+	@RequestMapping(value = "/page", method=RequestMethod.GET)
+	public ResponseEntity<Page<CategoriaDTO>> findAllByPage(@RequestParam(value = "page", defaultValue = "0") Integer page,
+															@RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,
+															@RequestParam(value = "orderBy", defaultValue = "nome") String orderBy,
+															@RequestParam(value = "direction", defaultValue = "ASC") String direction) throws ObjectNotFoundException {
+		Page<Categoria> list = service.findAllByPage(page, linesPerPage, orderBy, direction);
+
+		Page<CategoriaDTO> listDto = list.map(categoria -> new CategoriaDTO(categoria));
+
+		return ResponseEntity.ok(listDto);
 	}
 
 	@RequestMapping(method=RequestMethod.POST)
