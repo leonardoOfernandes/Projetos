@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -23,6 +24,7 @@ public class ResourceExceptionHandler {
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(err);
 		
 	}
+
 	@ExceptionHandler(DataIntegrityViolationException.class)
 	public ResponseEntity<StandardError> dataIntegrityException(DataIntegrityViolationException exception, HttpServletRequest request){
 
@@ -32,6 +34,18 @@ public class ResourceExceptionHandler {
 
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
 
+	}
+
+	@ExceptionHandler(MethodArgumentNotValidException.class)
+	public ResponseEntity<StandardError> methodArgumentNotValidException(MethodArgumentNotValidException exception, HttpServletRequest request){
+
+
+		ValidationError err = new ValidationError(HttpStatus.BAD_REQUEST.value()
+				, "Erro de validação", System.currentTimeMillis());
+
+		exception.getBindingResult().getFieldErrors().stream().forEach(fieldError -> err.addError(fieldError.getField(), fieldError.getDefaultMessage()));
+
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
 	}
 
 
