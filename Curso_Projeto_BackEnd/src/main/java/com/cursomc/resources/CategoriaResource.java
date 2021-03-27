@@ -13,6 +13,7 @@ import javassist.tools.rmi.ObjectNotFoundException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.Servlet;
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
@@ -48,16 +49,16 @@ public class CategoriaResource {
 	}
 
 	@RequestMapping(method=RequestMethod.POST)
-	public ResponseEntity<Void> insert(@RequestBody Categoria obj) throws ObjectNotFoundException{
-		obj = service.insert(obj);
+	public ResponseEntity<Void> insert(@Valid @RequestBody CategoriaDTO obj) throws ObjectNotFoundException{
+		Categoria response = service.insert(obj);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
-				.path("/{id}").buildAndExpand(obj.getId()).toUri();
+				.path("/{id}").buildAndExpand(response.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
 
 	@RequestMapping(value="/{id}",method=RequestMethod.PUT)
-	public ResponseEntity<Void> update(@PathVariable Integer id,@RequestBody Categoria obj) throws ObjectNotFoundException{
-		obj = service.update(id, obj);
+	public ResponseEntity<Void> update(@PathVariable Integer id,@Valid @RequestBody CategoriaDTO obj) throws ObjectNotFoundException{
+		Categoria response = service.update(id, obj);
 		return ResponseEntity.noContent().build();
 	}
 

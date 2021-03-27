@@ -29,15 +29,15 @@ public class CategoriaService {
 				"Objeto não encontrado! id: " + id + ", Tipo: "+ Categoria.class.getName()));
 	}
 
-	public Categoria insert(Categoria obj){
+	public Categoria insert(CategoriaDTO obj){
 		obj.setId(null);
-		return repo.save(obj);
+		return repo.save(fromDTO(obj));
 	}
 
-	public Categoria update(Integer id,Categoria obj) throws ObjectNotFoundException {
+	public Categoria update(Integer id,CategoriaDTO obj) throws ObjectNotFoundException {
 		find(id);
 		obj.setId(id);
-		return repo.save(obj);
+		return repo.save(fromDTO(obj));
 	}
 
 	public void delete(Integer id) throws ObjectNotFoundException {
@@ -65,6 +65,10 @@ public class CategoriaService {
 
 		return repo.findAll(pageRequest);
 
+	}
+
+	public Categoria fromDTO(CategoriaDTO objDto){
+		return new Categoria(objDto.getId(), objDto.getNome());
 	}
 
 }
