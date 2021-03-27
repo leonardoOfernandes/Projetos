@@ -4,7 +4,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import com.cursomc.domain.Cliente;
 import com.cursomc.dto.CategoriaDTO;
+import com.cursomc.dto.ClienteDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -35,9 +37,15 @@ public class CategoriaService {
 	}
 
 	public Categoria update(Integer id,CategoriaDTO obj) throws ObjectNotFoundException {
-		find(id);
 		obj.setId(id);
-		return repo.save(fromDTO(obj));
+		Categoria categoria = find(id);
+		updateData(categoria, obj);
+		return repo.save(categoria);
+	}
+
+	private void updateData(Categoria categoria, CategoriaDTO obj) {
+		categoria.setNome(obj.getNome());
+
 	}
 
 	public void delete(Integer id) throws ObjectNotFoundException {
