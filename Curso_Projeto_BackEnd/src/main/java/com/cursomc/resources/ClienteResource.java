@@ -3,6 +3,7 @@ package com.cursomc.resources;
 import com.cursomc.domain.Cliente;
 import com.cursomc.domain.Cliente;
 import com.cursomc.dto.ClienteDTO;
+import com.cursomc.dto.ClienteNewDTO;
 import com.cursomc.services.ClienteService;
 import com.cursomc.services.ClienteService;
 import javassist.tools.rmi.ObjectNotFoundException;
@@ -48,7 +49,7 @@ public class ClienteResource {
 	}
 
 	@RequestMapping(method=RequestMethod.POST)
-	public ResponseEntity<Void> insert(@Valid @RequestBody ClienteDTO obj) throws ObjectNotFoundException{
+	public ResponseEntity<Void> insert(@Valid @RequestBody ClienteNewDTO obj) throws ObjectNotFoundException{
 		Cliente response = service.insert(obj);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
 				.path("/{id}").buildAndExpand(response.getId()).toUri();
