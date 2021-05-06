@@ -94,6 +94,10 @@ public class Pedido implements Serializable {
         this.itens = itens;
     }
 
+    public double getValorTotal(){
+        return itens.stream().mapToDouble(ItemPedido::getSubTotal).sum();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
